@@ -1,0 +1,28 @@
+class TimeMap {
+private:
+    unordered_map<string , unordered_map<int , vector<string>>> mp;
+public:
+    TimeMap() {
+        
+    }
+    
+    void set(string key, string value, int timestamp) {
+        mp[key][timestamp].push_back(value);
+    }
+    
+    string get(string key, int timestamp) {
+        if(mp.find(key) == mp.end()){
+            return "";
+        }
+
+        auto &m = mp[key];
+
+        int seen = 0;
+        for(const auto& [time , _] : m){
+            if(time <= timestamp){
+                seen = max(seen , time);
+            }
+        }
+        return seen == 0 ? "" : m[seen].back();
+    }
+};
